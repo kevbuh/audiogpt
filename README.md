@@ -11,7 +11,7 @@
 ## MAKE SURE YOU'RE ALWAYS IN YOUR BRANCH!!!
 
 ### merging branch
-1. git pull
+1. git pull origin main
 2. git add .
 3. git commit -m "type something here"
 4. git push
@@ -35,3 +35,4 @@
 
 # TODO:
 - [x] finish readme 
+- [ ] audio recording button 
