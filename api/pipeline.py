@@ -1,7 +1,7 @@
 import os
 import openai
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, send_file
 import time
 
 from gtts import gTTS
@@ -32,26 +32,10 @@ def whisper():
     whisper_text = whisper_transcription["text"]
     return whisper_text
 
-
-# def speak(text):
-#     tts = gTTS(text=text, lang='en')
-
-#     filename = "abc.mp3"
-#     tts.save(filename)
-#     playsound.playsound(filename)
-#     os.remove(filename)
-
-"""
-# need to pass parameters
-
-@app.route('/user/<name>')
-def user(name):
-    return f'Hello, {name}!'
-"""
-# @app.route("/pipeline/<path_to_file>")
 @app.route("/pipeline")
 def pipeline():
     st = time.monotonic()
+
     # file = open("path_to_file", "rb")
     file = open("api/LJ025-0076.wav", "rb")
 
@@ -69,23 +53,23 @@ def pipeline():
 
     chatgpt_output = completion["choices"][0]["message"]["content"]
 
-
-
     tts = gTTS(text=chatgpt_output, lang='en')
 
     filename = "abc.mp3"
-    tts.save(filename)
+    tts.save("api/"+filename)
     
     et = time.monotonic() - st
 
-    playsound.playsound(filename)
-    os.remove(filename)
+    # playsound.playsound(filename)
+    # os.remove(filename) # do we need this?
 
+    # Specify the return type as audio/mp3
+    return send_file(filename, mimetype='audio/mp3')
 
-    return {
-        "output":chatgpt_output,
-        "time":f"\n Recording took took: {et*1000:.2f} ms\n"
-           }
+    # return {
+    #     "output":chatgpt_output,
+    #     "time":f"\n Recording took took: {et*1000:.2f} ms\n"
+    #        }
 
 
 if __name__ == '__main__':
