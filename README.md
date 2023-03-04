@@ -17,11 +17,6 @@
 4. git push
     - if that doesn't work:
         - git push --set-upstream origin branch_name_here
-5. git checkout main
-6. git pull origin main
-7. merge on github.com
-8. git checkout branch_name_here
-9. repeat process
 
 ### starting expo
 1. get in audiogpt folder 
@@ -35,4 +30,4 @@
 
 # TODO:
 - [x] finish readme 
-- [ ] audio recording button 
+- [x] audio recording button 
