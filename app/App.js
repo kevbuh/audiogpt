@@ -51,8 +51,7 @@ export default function App() {
     } catch (error) {
       console.log('Error playing audio: ', error);
     }
-  }
-
+    console.log('Stopped recording..');
 
   }
   
