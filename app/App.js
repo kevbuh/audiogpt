@@ -59,14 +59,27 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>AUDIOxGPT</Text>
+
+      {/* SETTINGS BUTTON */}
+
+      {/* MMMMM BLOB */}
+      {/* WILL LIKELY DO THIS VIA JS AND CSS */}
+
+      {/* RECORD BUTTON */}
+      {/* <View style={styles.buttonCustom}>
+        <Image source={'/assets/button.png'}/> 
+      </View> */}
       <Button
         title={recording ? 'Stop Recording' : 'Start Recording'}
         onPress={recording ? stopRecording : startRecording}
       />
 
+
       {recordedAudio && (
         <Button title="Play Recorded Audio" onPress={playRecordedAudio} />
       )}
+
+        
 
       <StatusBar style="auto" />
     </View>
@@ -81,3 +94,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
+
