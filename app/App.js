@@ -5,9 +5,13 @@ import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import tw from 'twrnc';
-import { Svg, Rect } from 'react-native-svg';
 import LottieWaveForm from "./assets/lottie-waveform";
 import LottieBlack from "./assets/lottie-black";
+import MyComponent from './assets/squiggle';
+
+import {  Image } from 'react-native';
+
+
 
 
 // import * as React from 'react';
@@ -20,6 +24,16 @@ export default function App() {
   const [recordedAudio, setRecordedAudio] = useState();
   const [playing, setPlaying] = useState(false);
 
+  // const MyComponent = () => {
+  //   return (
+  //     <View>
+  //       <Image 
+  //         source={require('/Users/kevinbuhler/Code/audiogpt/app/assets/svgviewer-png-output.png')} 
+  //         style={{ width: 200, height: 200 }} 
+  //       />
+  //     </View>
+  //   );
+  // };
 
   async function startRecording() {
     try {
@@ -108,29 +122,40 @@ export default function App() {
     setPlaying(false);
   }
 
-  function Visualizer({ waveform }) {
-    return (
-      <Svg width={waveform.width} height={waveform.height}>
-        {waveform.data.map((amplitude, index) => (
-          <Rect
-            key={index}
-            x={index}
-            y={0}
-            width={1}
-            height={amplitude}
-            fill="blue"
-          />
-        ))}
-      </Svg>
-    );
-  }
+
 
   return (
-    <View style={tw`mx-auto py-16 flex flex-col`}>
+    <View style={tw`mx-auto py-16  flex flex-col`}>
       {/* <View style={tw`pt-8 text-xl`}>
         <Text>AUDIOxGPT</Text>
       </View> */}
-      <Text style={tw`font-bold text-3xl mt-auto mx-auto mb-16`}>AUDIOxGPT</Text>
+      <Text style={tw`font-bold text-5xl mt-auto mx-auto mt-16`}>audioGPT</Text>
+
+      {recordedAudio && !playing && (
+        <Text style={tw` text-3xl mx-auto mb-16`}>ready!</Text>
+      )}
+      {!recordedAudio && !playing && (
+        <Text style={tw` text-3xl mx-auto mb-16`}>waiting...</Text>
+      )}
+      {/* {!recordedAudio && recording && (
+        <Text style={tw`font-bold text-3xl mx-auto mb-16`}>recording...</Text>
+      )} */}
+      {recordedAudio && playing && (
+        <Text style={tw`font-bold text-3xl mx-auto mb-16`}>responding...</Text>
+      )}
+
+      {/* <Text style={tw` text-stone-400 text-3xl mt-auto mx-auto mb-16`}>vocalized chatGPT</Text> */}
+      {/* <Squiggly /> */}
+      <View
+        style={{
+          borderBottomColor: 'lightgrey',
+          borderBottomWidth: 2,
+        }}
+      />
+
+        {/* <MyComponent/> */}
+
+
       
       {/* PLAY AUDIO */}
       
@@ -147,13 +172,20 @@ export default function App() {
       {/* MMMMM BLOB */}
       {/* WILL LIKELY DO THIS VIA JS AND CSS */}
       <View style={tw` rounded py-4 mx-auto`}>
-        {/* <Text style={tw`font-bold m-auto `}>BLOB</Text> */}
-        {recording && (<LottieWaveForm />)}
+      {recording && (<LottieWaveForm/>)}
+      
         {!recording && !recordedAudio && (<LottieBlack/>)}
         {!recording && recordedAudio && (<LottieBlack />)}
+        
         {/* <LottieWaveForm /> */}
         
       </View>
+      <View
+        style={{
+          borderBottomColor: 'lightgrey',
+          borderBottomWidth: 2,
+        }}
+      />
   
       {/* RECORD BUTTON */}
       {/* <View style={styles.buttonCustom}>
@@ -192,57 +224,9 @@ export default function App() {
           <Entypo style={tw`m-4 mx-auto`} name="controller-play" size={72} color="#000" />
         </TouchableOpacity>
          )}
-
-        
-
       </View>
       <StatusBar style="auto" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   backgroundColor: '#fff',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  // uwotm8: {
-  //   flex: 1,
-  //   color: 'white',
-  //   justifyContent: 'center',
-  // },
-  // settings: {
-  //   flex: 1,
-  //   alignSelf: 'stretch',
-  //   backgroundColor: '#10041E',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  // settingsIcon: {
-  //   alignSelf: 'flex-end',
-  //   padding: 20,
-  // },
-
-  // blob: {
-  //   alignSelf: 'stretch',
-  //   flex: 5,
-  //   backgroundColor: '#2e0b56',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-
-  // buttonRecord: {
-  //   alignSelf: 'stretch',
-  //   flex: 2,
-  //   backgroundColor: '#10041E',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-});
-
-
-
-
 
