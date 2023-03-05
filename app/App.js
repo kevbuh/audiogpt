@@ -122,40 +122,24 @@ export default function App() {
     setPlaying(false);
   }
 
-
-
   return (
     <View style={tw`mx-auto py-16  flex flex-col`}>
-      {/* <View style={tw`pt-8 text-xl`}>
-        <Text>AUDIOxGPT</Text>
-      </View> */}
-      <Text style={tw`font-bold text-5xl mt-auto mx-auto mt-16`}>audioGPT</Text>
+      <View style={tw`pt-8 text-xl flex flex-row mt-auto`}>
+        <Text style={tw` text-xl font-bold mb-auto text-stone-400`}>audioGPT</Text>
+        <Entypo style={tw`mx-4 ml-auto`} name="cog" size={32} color="#b5b5b5" />
+      </View>
+      <Text style={tw`font-bold text-5xl mt-auto mt-16`}>Hi, I'm Savvy!</Text>
+      <Text style={tw`text-4xl  mb-16`}>How can I help you?</Text>
 
-      {recordedAudio && !playing && (
-        <Text style={tw` text-3xl mx-auto mb-16`}>ready!</Text>
-      )}
-      {!recordedAudio && !playing && (
-        <Text style={tw` text-3xl mx-auto mb-16`}>waiting...</Text>
-      )}
-      {/* {!recordedAudio && recording && (
-        <Text style={tw`font-bold text-3xl mx-auto mb-16`}>recording...</Text>
-      )} */}
-      {recordedAudio && playing && (
-        <Text style={tw`font-bold text-3xl mx-auto mb-16`}>responding...</Text>
-      )}
-
-      {/* <Text style={tw` text-stone-400 text-3xl mt-auto mx-auto mb-16`}>vocalized chatGPT</Text> */}
-      {/* <Squiggly /> */}
-      <View
+      {/* <View
         style={{
           borderBottomColor: 'lightgrey',
           borderBottomWidth: 2,
         }}
-      />
+      /> */}
+      
 
         {/* <MyComponent/> */}
-
-
       
       {/* PLAY AUDIO */}
       
@@ -171,7 +155,7 @@ export default function App() {
 
       {/* MMMMM BLOB */}
       {/* WILL LIKELY DO THIS VIA JS AND CSS */}
-      <View style={tw` rounded py-4 mx-auto`}>
+      <View style={tw`mx-auto`}>
       {recording && (<LottieWaveForm/>)}
       
         {!recording && !recordedAudio && (<LottieBlack/>)}
@@ -184,6 +168,7 @@ export default function App() {
         style={{
           borderBottomColor: 'lightgrey',
           borderBottomWidth: 2,
+          marginBottom: 16
         }}
       />
   
@@ -199,16 +184,37 @@ export default function App() {
           onPress={recording ? stopRecording : startRecording}
         /> */}
 
-        {!recordedAudio && (
+      {/* {recordedAudio && !playing && (
+              <Text style={tw` text-2xl mx-auto`}>ready!</Text>
+      )} */}
+      {/* {!recordedAudio && !playing && (
+        <Text style={tw` text-2xl mx-auto`}>waiting...</Text>
+      )} */}
+      {/* {!recordedAudio && recording && (
+        <Text style={tw`font-bold text-3xl mx-auto mb-16`}>recording...</Text>
+      )} */}
+      {recordedAudio && playing && (
+        <Text style={tw`font-bold text-2xl mx-auto`}>responding...</Text>
+      )}
+
+        {!recordedAudio && !recording && (
          <TouchableOpacity 
           title={recording ? 'Stop Recording' : 'Start Recording'}
           onPress={recording ? stopRecording : startRecording}>  
-          <Text style={tw`m-4  font-bold text-xl`}>
+          {/* START RECORDING BUTTON */}
+          <Entypo style={tw`mx-4 mx-auto`} name="circle" size={72} color="#b5b5b5" />
+        </TouchableOpacity>
+        )}
+        {recording && !recordedAudio && (
+         <TouchableOpacity 
+          title={recording ? 'Stop Recording' : 'Start Recording'}
+          onPress={recording ? stopRecording : startRecording}>  
+          <Text style={tw`mx-4  font-bold text-xl`}>
             {recording ? "RECORDING IN PROGRESS" : ""} 
           </Text>
           {/* START RECORDING BUTTON */}
-          {/* <MaterialCommunityIcons name="record-rec" size={80} color="white" /> */}
-          <Entypo style={tw`m-4 mx-auto`} name="circle" size={72} color="#000" />
+
+          <Entypo style={tw`mx-4 mx-auto`} name="controller-stop" size={72} color="#f54263" />
         </TouchableOpacity>
         )}
 
@@ -218,10 +224,10 @@ export default function App() {
         {/* PLAY RECORDED AUDIO */}
         {recordedAudio && !playing && (
         <TouchableOpacity title="Play Recorded Audio" onPress={playRecordedAudio}>
-          <Text style={tw`m-4 font-bold text-xl`}>
+          <Text style={tw`mx-4 font-bold text-xl`}>
             {recording && recordedAudio ? "" : "AUDIO PROCESSED"} 
           </Text>
-          <Entypo style={tw`m-4 mx-auto`} name="controller-play" size={72} color="#000" />
+          <Entypo style={tw`mx-4 mx-auto`} name="controller-play" size={72} color="#42f587" />
         </TouchableOpacity>
          )}
       </View>
