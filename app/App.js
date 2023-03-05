@@ -1,6 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { Audio } from 'expo-av';
+import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import * as React from 'react';
 import * as FileSystem from 'expo-file-system';
@@ -112,15 +115,60 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>AUDIOxGPT</Text>
-      <Button
-        title={recording ? 'Stop Recording' : 'Start Recording'}
-        onPress={recording ? stopRecording : startRecording}
-      />
+      <View style={styles.uwotm8}>
+        <Text>AUDIOxGPT</Text>
+      </View>
+      
+      {/* PLAY AUDIO */}
+      
 
-      {recordedAudio && (
-        <Button title="Play Recorded Audio" onPress={playRecordedAudio} />
-      )}
+      {/* SETTINGS BUTTON */}
+      <View style={styles.settings}>
+        <Ionicons name="settings-outline" size={36} color="white" style={styles.settingsIcon}/>
+      </View>
+
+      {/* MMMMM BLOB */}
+      {/* WILL LIKELY DO THIS VIA JS AND CSS */}
+      <View style={styles.blob}>
+        <Text>This is blob.</Text>
+      </View>
+  
+      {/* RECORD BUTTON */}
+      {/* <View style={styles.buttonCustom}>
+        <Image source={'/assets/button.png'}/> 
+      </View> */}
+
+      {/* SECOND BUTTON AS WELL??? */}
+      <View style={styles.buttonRecord}>
+        {/* <Button
+          title={recording ? 'Stop Recording' : 'Start Recording'}
+          onPress={recording ? stopRecording : startRecording}
+        /> */}
+
+        <TouchableOpacity 
+          title={recording ? 'Stop Recording' : 'Start Recording'}
+          onPress={recording ? stopRecording : startRecording}>  
+
+          {/* START RECORDING BUTTON */}
+          {/* <MaterialCommunityIcons name="record-rec" size={80} color="white" /> */}
+          <Entypo name="circle" size={56} color="white" />
+        </TouchableOpacity>
+
+        {/* STOP RECORDING BUTTON */}
+        {/* <Ionicons name="md-stop-circle-outline" size={72} color="white" /> */}
+
+        {/* PLAY RECORDED AUDIO */}
+        {recordedAudio && (
+        <TouchableOpacity title="Play Recorded Audio" onPress={playRecordedAudio}>
+          <Entypo name="controller-play" size={72} color="white" />
+        </TouchableOpacity>
+         )}
+
+      </View>
+    
+      
+
+        
 
       <StatusBar style="auto" />
     </View>
@@ -134,4 +182,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  uwotm8: {
+    flex: 1,
+    color: 'white',
+    justifyContent: 'center',
+  },
+  settings: {
+    flex: 1,
+    alignSelf: 'stretch',
+    backgroundColor: '#10041E',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  settingsIcon: {
+    alignSelf: 'flex-end',
+    padding: 20,
+  },
+
+  blob: {
+    alignSelf: 'stretch',
+    flex: 5,
+    backgroundColor: '#2e0b56',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  buttonRecord: {
+    alignSelf: 'stretch',
+    flex: 2,
+    backgroundColor: '#10041E',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
+
+
+
