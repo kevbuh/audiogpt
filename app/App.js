@@ -123,76 +123,33 @@ export default function App() {
   }
 
   return (
-    <View style={tw`mx-auto py-16  flex flex-col`}>
-      <View style={tw`pt-8 text-xl flex flex-row mt-auto`}>
-        <Text style={tw` text-xl font-bold mb-auto text-stone-400`}>audioGPT</Text>
-        <Entypo style={tw`mx-4 ml-auto`} name="cog" size={32} color="#b5b5b5" />
+    <View style={tw`bg-stone-100 w-full py-16 flex flex-col`}>
+      <View style={tw`w-full`}>
+        <View style={tw` w-full text-xl flex flex-row mb-4 px-4`}>
+          <Text style={tw`text-lg font-bold mb-auto text-stone-400`}>Powered by OpenAI</Text>
+          <Entypo style={tw`mx-4 ml-auto`} name="menu" size={32} color="#b5b5b5" />
+        </View>
       </View>
-      <Text style={tw`font-bold text-5xl mt-auto mt-16`}>Hi, I'm Savvy!</Text>
-      <Text style={tw`text-4xl  mb-16`}>How can I help you?</Text>
-
-      {/* <View
-        style={{
-          borderBottomColor: 'lightgrey',
-          borderBottomWidth: 2,
-        }}
-      /> */}
-      
-
-        {/* <MyComponent/> */}
-      
-      {/* PLAY AUDIO */}
-      
-
-      {/* SETTINGS BUTTON */}
-      {/* <View style={tw`bg-red-500 `}>
-        <Text>AUDIOxGPT</Text>
-      </View> */}
-      {/* <View style={styles.settings}>
-
-        <Ionicons name="settings-outline" size={36} color="white" style={styles.settingsIcon}/>
-      </View> */}
-
-      {/* MMMMM BLOB */}
-      {/* WILL LIKELY DO THIS VIA JS AND CSS */}
+        <View style={tw`bg-white w-full text-xl pt-8`}>
+          <Text style={tw`mx-auto font-bold text-5xl mt-auto mt-16`}>Hi, I'm Savvy!</Text>
+          <Text style={tw`mx-auto text-3xl`}>How can I help you?</Text>
+        </View>
+      <View style={tw`bg-white w-full `}>
       <View style={tw`mx-auto`}>
-      {recording && (<LottieWaveForm/>)}
-      
+        {recording && (<LottieWaveForm/>)}
         {!recording && !recordedAudio && (<LottieBlack/>)}
         {!recording && recordedAudio && (<LottieBlack />)}
         
         {/* <LottieWaveForm /> */}
-        
+        </View>
       </View>
-      <View
-        style={{
-          borderBottomColor: 'lightgrey',
-          borderBottomWidth: 2,
-          marginBottom: 16
-        }}
-      />
-  
-      {/* RECORD BUTTON */}
-      {/* <View style={styles.buttonCustom}>
-        <Image source={'/assets/button.png'}/> 
-      </View> */}
+
+      <View style={tw`bg-stone-100 pt-16 pb-128`}>
+      <View/>
 
       {/* SECOND BUTTON AS WELL??? */}
-      <View style={tw`my-4  mx-auto`}>
-        {/* <Button
-          title={recording ? 'Stop Recording' : 'Start Recording'}
-          onPress={recording ? stopRecording : startRecording}
-        /> */}
-
-      {/* {recordedAudio && !playing && (
-              <Text style={tw` text-2xl mx-auto`}>ready!</Text>
-      )} */}
-      {/* {!recordedAudio && !playing && (
-        <Text style={tw` text-2xl mx-auto`}>waiting...</Text>
-      )} */}
-      {/* {!recordedAudio && recording && (
-        <Text style={tw`font-bold text-3xl mx-auto mb-16`}>recording...</Text>
-      )} */}
+      <View style={tw`my-4 mx-auto`}>
+       
       {recordedAudio && playing && (
         <Text style={tw`font-bold text-2xl mx-auto`}>responding...</Text>
       )}
@@ -202,7 +159,7 @@ export default function App() {
           title={recording ? 'Stop Recording' : 'Start Recording'}
           onPress={recording ? stopRecording : startRecording}>  
           {/* START RECORDING BUTTON */}
-          <Entypo style={tw`mx-4 mx-auto`} name="circle" size={72} color="#b5b5b5" />
+          <Entypo style={tw`mx-4 mx-auto`} name="fingerprint" size={72} color="#b5b5b5" />
         </TouchableOpacity>
         )}
         {recording && !recordedAudio && (
@@ -233,6 +190,8 @@ export default function App() {
       </View>
       <StatusBar style="auto" />
     </View>
+    </View>
+
   );
 }
 
