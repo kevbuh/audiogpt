@@ -65,6 +65,8 @@ export default function App() {
         <Text>AUDIOxGPT</Text>
       </View>
       
+      {/* PLAY AUDIO */}
+      
 
       {/* SETTINGS BUTTON */}
       <View style={styles.settings}>
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
   settings: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: '#2e0b56',
+    backgroundColor: '#10041E',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
   blob: {
     alignSelf: 'stretch',
     flex: 5,
-    backgroundColor: '#10041E',
+    backgroundColor: '#2e0b56',
     alignItems: 'center',
     justifyContent: 'center',
   },
