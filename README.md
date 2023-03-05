@@ -1,7 +1,7 @@
 # AudioGPT
 
 
-![Product](https://user-images.githubusercontent.com/115026599/222978002-76f8b702-c525-45d0-b732-3e5faa284b1a.png)
+![Product](https://user-images.githubusercontent.com/115026599/222978554-b3b2e33a-62cd-4f49-9cd6-3859b3d04f9d.png)
 
 <img src="https://raw.githubusercontent.com/Collisteru/audiogpt/main/app/assets/frontend8am.png" alt="frontend" width="400">
 
