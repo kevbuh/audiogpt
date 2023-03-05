@@ -1,90 +1,243 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { AudioRecorder, AudioUtils } from 'react-native-audio-recorder-player';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, Button, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { Audio } from 'expo-av';
+import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import tw from 'twrnc';
+import { Svg, Rect } from 'react-native-svg';
 
-export default function AudioVisualizer() {
-  const [fftAvgWin, setFftAvgWin] = useState(0);
-  const [particleWorld, setParticleWorld] = useState([]);
+// import * as React from 'react';
+import { useState, useEffect } from 'react';
+import * as FileSystem from 'expo-file-system';
 
-  useEffect(() => {
-    const audioRecorderPlayer = new AudioRecorder();
-    audioRecorderPlayer.setSubscriptionDuration(0.05); // set subscription duration to 50ms
-    audioRecorderPlayer.addRecordBackListener((e) => {
-      const audioData = JSON.parse(e.data);
-      const frequencyArray = audioData.data.map((d) => Math.abs(d)); // get absolute values of audio data
-      const fftAvg = frequencyArray.reduce((fftv, t) => fftv + t) / 255;
-      setFftAvgWin((prev) => (prev + fftAvg) / 2);
-    });
-    audioRecorderPlayer.startRecorder();
+export default function App() {
+  const [recording, setRecording] = useState();
+  const [waveform, setWaveform] = useState(null);
+  const [recordedAudio, setRecordedAudio] = useState();
 
-    const circleCount = 4;
-    const initialParticleWorld = [];
-    for (let i = 1; i <= circleCount; i++) {
-      const initialRadius = circleCount / i;
-      initialParticleWorld.push({
-        particleId: i,
-        alive: true,
-        acceleration: i / circleCount,
-        velocity: i / circleCount,
-        radius: initialRadius,
-        birth: new Date().getTime() - i * 100,
+
+  async function startRecording() {
+    try {
+      console.log('Requesting permissions..');
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
       });
+
+      console.log('Starting recording..');
+      const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+      setRecording(recording);
+      console.log('Recording started');
+    } catch (err) {
+      console.error('Failed to start recording', err);
     }
-    setParticleWorld(initialParticleWorld);
+  }
 
-    const animationInterval = setInterval(() => {
-      const now = new Date().getTime();
-      const updatedParticleWorld = particleWorld.map((particle, index) => {
-        if (particle.alive) {
-          if (particle.radius > 50) {
-            particle.alive = false;
-          }
-          if (particle.birth < now - 1000) {
-            particle.alive = false;
-          }
+  async function stopRecording() {
+    console.log('Stopping recording..');
+    setRecording(undefined);
+    await recording.stopAndUnloadAsync();
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+    });
+    const uri = recording.getURI();
+    console.log('Recording stopped and stored at', uri);
+
+    setRecordedAudio(uri);
+  }
+
+  async function playRecordedAudio() {
+    console.log('\n ------- Fetching recorded audio... ------- \n');
+    const apiUrl = 'http://127.0.0.1:5000/pipeline';
+
+    const audioFile = recordedAudio; // replace with uri path
+    console.log(`\n ------- making form  ------- \n`);
+    // Create a new FormData object
+    const formData = new FormData();
+    formData.append('file', {
+      uri: audioFile,
+      type: 'audio/mp4',
+      name: 'audio.m4a'
+    });
+
+    console.log(`\n ------- fetching data  ------- \n`);
+
+    const result = await fetch(apiUrl, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then( async response => {
+      const soundObject = new Audio.Sound();
+
+      try {
+        const fileInfo = await FileSystem.getInfoAsync("/Users/kevinbuhler/Code/audiogpt/api/abc.mp3");
+        if (fileInfo.exists) {
+          await soundObject.loadAsync({ uri: fileInfo.uri });
+          // const waveform = await soundObject.getWaveFormAsync({
+          //   size: 1024, // Number of samples to analyze at once
+          //   width: 500, // Width of the waveform image
+          //   height: 200, // Height of the waveform image
+          // });
+          // setWaveform(waveform);
+          await soundObject.playAsync();
+          console.log('Playing audio...');
         } else {
-          particle.velocity = Math.min(fftAvgWin / 20, 0.9);
-          particle.radius = 0;
-          particle.alive = true;
-          particle.birth = new Date().getTime() - index * 100; // to maintain randomness
+          console.log(`File not found: ${filePath}`);
         }
-        particle.velocity -= 0.01;
-        particle.radius += particle.velocity;
-        return particle;
-      });
-      setParticleWorld(updatedParticleWorld);
-    }, 50);
 
-    return () => {
-      clearInterval(animationInterval);
-      audioRecorderPlayer.stopRecorder();
-      audioRecorderPlayer.removeRecordBackListener();
-    };
-  }, []);
+      } catch (error) {
+        console.log('Error playing audio: ', error);
+      }
+      console.log('Stopped recording...');
+      
+      console.log('\n ------- DONE! ------- \n');
+      
+    })
+    setRecordedAudio(undefined);
+    
+  }
+
+  function Visualizer({ waveform }) {
+    return (
+      <Svg width={waveform.width} height={waveform.height}>
+        {waveform.data.map((amplitude, index) => (
+          <Rect
+            key={index}
+            x={index}
+            y={0}
+            width={1}
+            height={amplitude}
+            fill="blue"
+          />
+        ))}
+      </Svg>
+    );
+  }
 
   return (
-    <View style={styles.container}>
-      {particleWorld.map((particle) => (
-        <View
-          key={particle.particleId}
-          style={[styles.circle, { width: particle.radius, height: particle.radius }]}
-        />
-      ))}
+    <View style={tw`mx-auto py-16 flex flex-col`}>
+      {/* <View style={tw`pt-8 text-xl`}>
+        <Text>AUDIOxGPT</Text>
+      </View> */}
+      <Text style={tw`font-bold text-3xl mt-auto mx-auto mb-16`}>AUDIOxGPT</Text>
+      
+      {/* PLAY AUDIO */}
+      
+
+      {/* SETTINGS BUTTON */}
+      {/* <View style={tw`bg-red-500 `}>
+        <Text>AUDIOxGPT</Text>
+      </View> */}
+      {/* <View style={styles.settings}>
+
+        <Ionicons name="settings-outline" size={36} color="white" style={styles.settingsIcon}/>
+      </View> */}
+
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        {waveform ? (
+          <Visualizer waveform={waveform} />
+        ) : (
+          <Text>Loading...</Text>
+        )}
+      </View>
+
+      {/* MMMMM BLOB */}
+      {/* WILL LIKELY DO THIS VIA JS AND CSS */}
+      <View style={tw`bg-stone-100 rounded py-48`}>
+        <Text style={tw`font-bold m-auto `}>BLOB</Text>
+      </View>
+  
+      {/* RECORD BUTTON */}
+      {/* <View style={styles.buttonCustom}>
+        <Image source={'/assets/button.png'}/> 
+      </View> */}
+
+      {/* SECOND BUTTON AS WELL??? */}
+      <View style={tw`my-4 bg-stone-100 mx-auto`}>
+        {/* <Button
+          title={recording ? 'Stop Recording' : 'Start Recording'}
+          onPress={recording ? stopRecording : startRecording}
+        /> */}
+
+        {!recordedAudio && (
+         <TouchableOpacity 
+          title={recording ? 'Stop Recording' : 'Start Recording'}
+          onPress={recording ? stopRecording : startRecording}>  
+          <Text style={tw`m-4 bg-stone-100 font-bold text-xl`}>
+            {recording ? "RECORDING" : "PRESS THE BUTTON BELOW TO RECORD"} 
+          </Text>
+          {/* START RECORDING BUTTON */}
+          {/* <MaterialCommunityIcons name="record-rec" size={80} color="white" /> */}
+          <Entypo style={tw`m-4 mx-auto`} name="circle" size={72} color="#ee4d19" />
+        </TouchableOpacity>
+        )}
+
+        {/* STOP RECORDING BUTTON */}
+        {/* <Ionicons name="md-stop-circle-outline" size={72} color="white" /> */}
+
+        {/* PLAY RECORDED AUDIO */}
+        {recordedAudio && (
+        <TouchableOpacity title="Play Recorded Audio" onPress={playRecordedAudio}>
+          <Entypo style={tw`m-4 mx-auto`} name="controller-play" size={72} color="#ee4d19" />
+        </TouchableOpacity>
+         )}
+
+        
+
+      </View>
+      <StatusBar style="auto" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  circle: {
-    position: 'absolute',
-    borderRadius: 50,
-    backgroundColor: 'blue',
-    opacity: 0.2,
-  },
+  // container: {
+  //   flex: 1,
+  //   backgroundColor: '#fff',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // uwotm8: {
+  //   flex: 1,
+  //   color: 'white',
+  //   justifyContent: 'center',
+  // },
+  // settings: {
+  //   flex: 1,
+  //   alignSelf: 'stretch',
+  //   backgroundColor: '#10041E',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // settingsIcon: {
+  //   alignSelf: 'flex-end',
+  //   padding: 20,
+  // },
+
+  // blob: {
+  //   alignSelf: 'stretch',
+  //   flex: 5,
+  //   backgroundColor: '#2e0b56',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+
+  // buttonRecord: {
+  //   alignSelf: 'stretch',
+  //   flex: 2,
+  //   backgroundColor: '#10041E',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
 });
+
+
+
+
+
