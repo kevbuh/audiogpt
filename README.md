@@ -1,7 +1,9 @@
 # AudioGPT
 
 
-![viz](" app/assets/frontend8am.png")
+
+<img src="https://raw.githubusercontent.com/Collisteru/audiogpt/main/app/assets/frontend8am.png" alt="frontend" width="400">
+
 
 ## MAKE SURE YOU'RE ALWAYS IN YOUR BRANCH!!!
 
