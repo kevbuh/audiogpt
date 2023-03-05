@@ -41,19 +41,113 @@ export default function App() {
 
   const [recordedAudio, setRecordedAudio] = React.useState();
 
-  async function playRecordedAudio() {
-    console.log('Playing recorded audio..');
+  async function playFinal() {
     const soundObject = new Audio.Sound();
     try {
-      await soundObject.loadAsync({ uri: recordedAudio });
+      console.log(`\n ------- trying  ------- \n`);
+
+      await soundObject.loadAsync({ uri: "abc.mp3" });
+
+      console.log(`\n ------- playing...  ------- \n`);
+
       await soundObject.playAsync();
       console.log('Playing audio..');
     } catch (error) {
       console.log('Error playing audio: ', error);
     }
-    console.log('Stopped recording..');
+    console.log('Finished audio..');
+
+    return "bob"
+  }
+
+  async function playRecordedAudio() {
+    console.log('\n ------- Fetching recorded audio... ------- \n');
+    const apiUrl = 'http://127.0.0.1:5000/pipeline';
+
+    const audioFile = recordedAudio; // replace with uri path
+    console.log(`\n ------- making form  ------- \n`);
+    // Create a new FormData object
+    const formData = new FormData();
+    formData.append('file', {
+      uri: audioFile,
+      type: 'audio/mp4',
+      name: 'audio.m4a'
+    });
+
+    console.log(`\n ------- fetching data  ------- \n`);
+
+    const result = await fetch(apiUrl, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    // .then( async response => {
+    //   response.json();
+    //   console.log(`\n ------- got fetched data mp3  ------- \n`);
+    //   const soundObject = new Audio.Sound();
+    //   try {
+    //     console.log(`\n ------- trying  ------- \n`);
+
+    //     const red1 = await soundObject.loadAsync({ uri: "api/abc.mp3" });
+    //     console.log(red1)
+    //     console.log(`\n ------- playing...  ------- \n`);
+
+    //     await soundObject.playAsync();
+    //     console.log('Playing audio..');
+    //   } catch (error) {
+    //     console.log('Error playing audio: ', error);
+    //   }
+    //   console.log('Stopped recording..');
+      
+    // })
+    .then(async response => {
+      // const data = await response.json();
+      console.log(`\n ------- got fetched data mp3  ------- \n`);
+      setRecordedAudio("abc.mp3");
+        // console.log(`\n ------- trying  ------- \n`);
+
+      const bob = await playFinal()
+
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+    // console.log('\n ------- Playing fetched audio... ------- \n');
+    console.log('\n ------- DONE! ------- \n');
+
+
+    // const soundObject = new Audio.Sound();
+    // try {
+    //   await soundObject.loadAsync({ uri: recordedAudio });
+    //   await soundObject.playAsync();
+    //   console.log('Playing audio..');
+    // } catch (error) {
+    //   console.log('Error playing audio: ', error);
+    // }
+    // console.log('Stopped recording..');
 
   }
+
+  // React.useEffect(() => {
+  //   const playAudio = async () => {
+  //     const soundObject = new Audio.Sound();
+  //     try {
+  //       console.log(`\n ------- trying  ------- \n`);
+  //       await soundObject.loadAsync({ uri: recordedAudio });
+  //       console.log(`\n ------- playing...  ------- \n`);
+  //       await soundObject.playAsync();
+  //       console.log('Playing audio..');
+  //     } catch (error) {
+  //       console.log('Error playing audio: ', error);
+  //     }
+  //     console.log('Finished audio..');
+  //   }
+  
+  //   playAudio();
+  // }, [recordedAudio]);
   
 
   return (
