@@ -91,16 +91,14 @@ export default function App() {
       const soundObject = new Audio.Sound();
 
       try {
-      console.log('*%*59898#@$$#@');
-      const fileInfo = await FileSystem.getInfoAsync("/Users/kevinbuhler/Code/audiogpt/api/abc.mp3");
-      console.log('*****',fileInfo)
-      if (fileInfo.exists) {
-        await soundObject.loadAsync({ uri: fileInfo.uri });
-        await soundObject.playAsync();
-        console.log('Playing audio...');
-      } else {
-        console.log(`File not found: ${filePath}`);
-      }
+        const fileInfo = await FileSystem.getInfoAsync("/Users/kevinbuhler/Code/audiogpt/api/abc.mp3");
+        if (fileInfo.exists) {
+          await soundObject.loadAsync({ uri: fileInfo.uri });
+          await soundObject.playAsync();
+          console.log('Playing audio...');
+        } else {
+          console.log(`File not found: ${filePath}`);
+        }
 
       } catch (error) {
         console.log('Error playing audio: ', error);
@@ -110,6 +108,7 @@ export default function App() {
       console.log('\n ------- DONE! ------- \n');
       
     })
+    setRecordedAudio(undefined);
     
   }
 
@@ -145,7 +144,8 @@ export default function App() {
           onPress={recording ? stopRecording : startRecording}
         /> */}
 
-        <TouchableOpacity 
+        {!recordedAudio && (
+         <TouchableOpacity 
           title={recording ? 'Stop Recording' : 'Start Recording'}
           onPress={recording ? stopRecording : startRecording}>  
 
@@ -153,6 +153,7 @@ export default function App() {
           {/* <MaterialCommunityIcons name="record-rec" size={80} color="white" /> */}
           <Entypo name="circle" size={56} color="white" />
         </TouchableOpacity>
+        )}
 
         {/* STOP RECORDING BUTTON */}
         {/* <Ionicons name="md-stop-circle-outline" size={72} color="white" /> */}
