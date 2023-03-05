@@ -144,8 +144,6 @@ export default function App() {
         <Ionicons name="settings-outline" size={36} color="white" style={styles.settingsIcon}/>
       </View> */}
 
-  
-
       {/* MMMMM BLOB */}
       {/* WILL LIKELY DO THIS VIA JS AND CSS */}
       <View style={tw` rounded py-4 mx-auto`}>

@@ -1,6 +1,8 @@
 # AudioGPT
 
 
+![viz](" app/assets/frontend8am.png")
+
 ## MAKE SURE YOU'RE ALWAYS IN YOUR BRANCH!!!
 
 ### creating branch
