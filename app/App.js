@@ -3,9 +3,12 @@ import { StyleSheet, Text, View, Button, TouchableWithoutFeedback, TouchableOpac
 import { Audio } from 'expo-av';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import tw from 'twrnc';
 import { Svg, Rect } from 'react-native-svg';
+import LottieWaveForm from "./assets/lottie-waveform";
+import LottieBlack from "./assets/lottie-black";
+
 
 // import * as React from 'react';
 import { useState, useEffect } from 'react';
@@ -15,6 +18,7 @@ export default function App() {
   const [recording, setRecording] = useState();
   const [waveform, setWaveform] = useState(null);
   const [recordedAudio, setRecordedAudio] = useState();
+  const [playing, setPlaying] = useState(false);
 
 
   async function startRecording() {
@@ -50,6 +54,7 @@ export default function App() {
   }
 
   async function playRecordedAudio() {
+    setPlaying(true);
     console.log('\n ------- Fetching recorded audio... ------- \n');
     const apiUrl = 'http://127.0.0.1:5000/pipeline';
 
@@ -100,7 +105,7 @@ export default function App() {
       
     })
     setRecordedAudio(undefined);
-    
+    setPlaying(false);
   }
 
   function Visualizer({ waveform }) {
@@ -139,18 +144,17 @@ export default function App() {
         <Ionicons name="settings-outline" size={36} color="white" style={styles.settingsIcon}/>
       </View> */}
 
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        {waveform ? (
-          <Visualizer waveform={waveform} />
-        ) : (
-          <Text>Loading...</Text>
-        )}
-      </View>
+  
 
       {/* MMMMM BLOB */}
       {/* WILL LIKELY DO THIS VIA JS AND CSS */}
-      <View style={tw`bg-stone-100 rounded py-48`}>
-        <Text style={tw`font-bold m-auto `}>BLOB</Text>
+      <View style={tw` rounded py-4 mx-auto`}>
+        {/* <Text style={tw`font-bold m-auto `}>BLOB</Text> */}
+        {recording && (<LottieWaveForm />)}
+        {!recording && !recordedAudio && (<LottieBlack/>)}
+        {!recording && recordedAudio && (<LottieBlack />)}
+        {/* <LottieWaveForm /> */}
+        
       </View>
   
       {/* RECORD BUTTON */}
@@ -159,7 +163,7 @@ export default function App() {
       </View> */}
 
       {/* SECOND BUTTON AS WELL??? */}
-      <View style={tw`my-4 bg-stone-100 mx-auto`}>
+      <View style={tw`my-4  mx-auto`}>
         {/* <Button
           title={recording ? 'Stop Recording' : 'Start Recording'}
           onPress={recording ? stopRecording : startRecording}
@@ -169,12 +173,12 @@ export default function App() {
          <TouchableOpacity 
           title={recording ? 'Stop Recording' : 'Start Recording'}
           onPress={recording ? stopRecording : startRecording}>  
-          <Text style={tw`m-4 bg-stone-100 font-bold text-xl`}>
-            {recording ? "RECORDING" : "PRESS THE BUTTON BELOW TO RECORD"} 
+          <Text style={tw`m-4  font-bold text-xl`}>
+            {recording ? "RECORDING IN PROGRESS" : ""} 
           </Text>
           {/* START RECORDING BUTTON */}
           {/* <MaterialCommunityIcons name="record-rec" size={80} color="white" /> */}
-          <Entypo style={tw`m-4 mx-auto`} name="circle" size={72} color="#ee4d19" />
+          <Entypo style={tw`m-4 mx-auto`} name="circle" size={72} color="#000" />
         </TouchableOpacity>
         )}
 
@@ -182,9 +186,12 @@ export default function App() {
         {/* <Ionicons name="md-stop-circle-outline" size={72} color="white" /> */}
 
         {/* PLAY RECORDED AUDIO */}
-        {recordedAudio && (
+        {recordedAudio && !playing && (
         <TouchableOpacity title="Play Recorded Audio" onPress={playRecordedAudio}>
-          <Entypo style={tw`m-4 mx-auto`} name="controller-play" size={72} color="#ee4d19" />
+          <Text style={tw`m-4 font-bold text-xl`}>
+            {recording && recordedAudio ? "" : "AUDIO PROCESSED"} 
+          </Text>
+          <Entypo style={tw`m-4 mx-auto`} name="controller-play" size={72} color="#000" />
         </TouchableOpacity>
          )}
 
