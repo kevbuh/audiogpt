@@ -1,6 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { Audio } from 'expo-av';
+import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import * as React from 'react';
 
@@ -65,7 +68,7 @@ export default function App() {
 
       {/* SETTINGS BUTTON */}
       <View style={styles.settings}>
-        <Text style={styles.settingsText}>Settings</Text>
+        <Ionicons name="settings-outline" size={36} color="white" style={styles.settingsIcon}/>
       </View>
 
       {/* MMMMM BLOB */}
@@ -81,15 +84,33 @@ export default function App() {
 
       {/* SECOND BUTTON AS WELL??? */}
       <View style={styles.buttonRecord}>
-        <Button
+        {/* <Button
           title={recording ? 'Stop Recording' : 'Start Recording'}
           onPress={recording ? stopRecording : startRecording}
-        />
+        /> */}
+
+        <TouchableOpacity 
+          title={recording ? 'Stop Recording' : 'Start Recording'}
+          onPress={recording ? stopRecording : startRecording}>  
+
+          {/* START RECORDING BUTTON */}
+          {/* <MaterialCommunityIcons name="record-rec" size={80} color="white" /> */}
+          <Entypo name="circle" size={56} color="white" />
+        </TouchableOpacity>
+
+        {/* STOP RECORDING BUTTON */}
+        {/* <Ionicons name="md-stop-circle-outline" size={72} color="white" /> */}
+
+        {/* PLAY RECORDED AUDIO */}
+        {recordedAudio && (
+        <TouchableOpacity title="Play Recorded Audio" onPress={playRecordedAudio}>
+          <Entypo name="controller-play" size={72} color="white" />
+        </TouchableOpacity>
+         )}
+
       </View>
     
-      {recordedAudio && (
-        <Button title="Play Recorded Audio" onPress={playRecordedAudio} />
-      )}
+      
 
         
 
@@ -101,7 +122,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2e0a57',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -113,19 +134,19 @@ const styles = StyleSheet.create({
   settings: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: '#ff0066',
+    backgroundColor: '#2e0b56',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  settingsText: {
-    color: '#fff',
+  settingsIcon: {
     alignSelf: 'flex-end',
     padding: 20,
   },
+
   blob: {
     alignSelf: 'stretch',
     flex: 5,
-    backgroundColor: '#502c6e',
+    backgroundColor: '#10041E',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -133,7 +154,7 @@ const styles = StyleSheet.create({
   buttonRecord: {
     alignSelf: 'stretch',
     flex: 2,
-    backgroundColor: 'yellow',
+    backgroundColor: '#10041E',
     alignItems: 'center',
     justifyContent: 'center',
   },
