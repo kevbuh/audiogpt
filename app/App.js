@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableWithoutFeedback } from 'react-native';
 import { Audio } from 'expo-av';
 
 import * as React from 'react';
@@ -58,23 +58,35 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>AUDIOxGPT</Text>
+      <View style={styles.uwotm8}>
+        <Text>AUDIOxGPT</Text>
+      </View>
+      
 
       {/* SETTINGS BUTTON */}
+      <View style={styles.settings}>
+        <Text style={styles.settingsText}>Settings</Text>
+      </View>
 
       {/* MMMMM BLOB */}
       {/* WILL LIKELY DO THIS VIA JS AND CSS */}
-
+      <View style={styles.blob}>
+        <Text>This is blob.</Text>
+      </View>
+  
       {/* RECORD BUTTON */}
       {/* <View style={styles.buttonCustom}>
         <Image source={'/assets/button.png'}/> 
       </View> */}
-      <Button
-        title={recording ? 'Stop Recording' : 'Start Recording'}
-        onPress={recording ? stopRecording : startRecording}
-      />
 
-
+      {/* SECOND BUTTON AS WELL??? */}
+      <View style={styles.buttonRecord}>
+        <Button
+          title={recording ? 'Stop Recording' : 'Start Recording'}
+          onPress={recording ? stopRecording : startRecording}
+        />
+      </View>
+    
       {recordedAudio && (
         <Button title="Play Recorded Audio" onPress={playRecordedAudio} />
       )}
@@ -89,7 +101,39 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#2e0a57',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  uwotm8: {
+    flex: 1,
+    color: 'white',
+    justifyContent: 'center',
+  },
+  settings: {
+    flex: 1,
+    alignSelf: 'stretch',
+    backgroundColor: '#ff0066',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  settingsText: {
+    color: '#fff',
+    alignSelf: 'flex-end',
+    padding: 20,
+  },
+  blob: {
+    alignSelf: 'stretch',
+    flex: 5,
+    backgroundColor: '#502c6e',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  buttonRecord: {
+    alignSelf: 'stretch',
+    flex: 2,
+    backgroundColor: 'yellow',
     alignItems: 'center',
     justifyContent: 'center',
   },
