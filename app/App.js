@@ -135,12 +135,12 @@ export default function App() {
           <Text style={tw`mx-auto text-3xl`}>How can I help you?</Text>
         </View>
       <View style={tw`bg-white w-full `}>
-      <View style={tw`mx-auto`}>
-        {recording && (<LottieWaveForm/>)}
-        {!recording && !recordedAudio && (<LottieBlack/>)}
-        {!recording && recordedAudio && (<LottieBlack />)}
-        
-        {/* <LottieWaveForm /> */}
+        <View style={tw`mx-auto`}>
+          {recording && (<LottieWaveForm/>)}
+          {!recording && !recordedAudio && (<LottieBlack/>)}
+          {!recording && recordedAudio && (<LottieBlack />)}
+          
+          {/* <LottieWaveForm /> */}
         </View>
       </View>
 
