@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import { Audio } from 'expo-av';
 
 import * as React from 'react';
+import * as FileSystem from 'expo-file-system';
 
 export default function App() {
   const [recording, setRecording] = React.useState();
@@ -62,27 +63,27 @@ export default function App() {
 
   async function playRecordedAudio() {
     console.log('\n ------- Fetching recorded audio... ------- \n');
-    const apiUrl = 'http://127.0.0.1:5000/pipeline';
+    // const apiUrl = 'http://127.0.0.1:5000/pipeline';
 
-    const audioFile = recordedAudio; // replace with uri path
-    console.log(`\n ------- making form  ------- \n`);
-    // Create a new FormData object
-    const formData = new FormData();
-    formData.append('file', {
-      uri: audioFile,
-      type: 'audio/mp4',
-      name: 'audio.m4a'
-    });
+    // const audioFile = recordedAudio; // replace with uri path
+    // console.log(`\n ------- making form  ------- \n`);
+    // // Create a new FormData object
+    // const formData = new FormData();
+    // formData.append('file', {
+    //   uri: audioFile,
+    //   type: 'audio/mp4',
+    //   name: 'audio.m4a'
+    // });
 
-    console.log(`\n ------- fetching data  ------- \n`);
+    // console.log(`\n ------- fetching data  ------- \n`);
 
-    const result = await fetch(apiUrl, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    // const result = await fetch(apiUrl, {
+    //   method: 'POST',
+    //   body: formData,
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data'
+    //   }
+    // })
     // .then( async response => {
     //   response.json();
     //   console.log(`\n ------- got fetched data mp3  ------- \n`);
@@ -102,33 +103,59 @@ export default function App() {
     //   console.log('Stopped recording..');
       
     // })
-    .then(async response => {
-      // const data = await response.json();
-      console.log(`\n ------- got fetched data mp3  ------- \n`);
-      setRecordedAudio("abc.mp3");
-        // console.log(`\n ------- trying  ------- \n`);
+    // .then(async response => {
+    //   // const data = await response.json();
+    //   console.log(`\n ------- got fetched data mp3  ------- \n`);
+    //   setRecordedAudio("abc.mp3");
+    //     // console.log(`\n ------- trying  ------- \n`);
 
-      const bob = await playFinal()
+    //   const bob = await playFinal()
 
-    })
-    .catch(error => {
-      console.error(error);
-    });
+    // })
+    // .catch(error => {
+    //   console.error(error);
+    // });
 
     // console.log('\n ------- Playing fetched audio... ------- \n');
-    console.log('\n ------- DONE! ------- \n');
+    // console.log('here');
+    
+    const soundObject = new Audio.Sound();
+    // console.log('here');
 
+    try {
+    //   console.log('here', recordedAudio);
+    //   // await soundObject.loadAsync({ uri: recordedAudio });
 
-    // const soundObject = new Audio.Sound();
-    // try {
-    //   await soundObject.loadAsync({ uri: recordedAudio });
+    console.log('*%*59898#@$$#@');
+
+    const fileInfo = await FileSystem.getInfoAsync("/Users/kevinbuhler/Code/audiogpt/abc.mp3");
+    console.log('*****',fileInfo)
+    if (fileInfo.exists) {
+      await soundObject.loadAsync({ uri: fileInfo.uri });
+      await soundObject.playAsync();
+      console.log('Playing audio...');
+    } else {
+      console.log(`File not found: ${filePath}`);
+    }
+
+    //   await soundObject.loadAsync({ uri: "abc.mp3" });
     //   await soundObject.playAsync();
-    //   console.log('Playing audio..');
-    // } catch (error) {
-    //   console.log('Error playing audio: ', error);
-    // }
-    // console.log('Stopped recording..');
+    //     console.log('Playing audio..', recordedAudio);
 
+    //   const { sound } = await Audio.Sound.createAsync({
+    //     uri: recordedAudio,
+    //     shouldPlay: true,
+    // });
+    //   // setSound(sound);
+    //   // await sound.playAsync();
+    //   await sound.playAsync();
+
+    } catch (error) {
+      console.log('Error playing audio: ', error);
+    }
+    console.log('Stopped recording...');
+    
+    console.log('\n ------- DONE! ------- \n');
   }
 
   // React.useEffect(() => {
