@@ -1,14 +1,11 @@
 import os
 import openai
 from dotenv import load_dotenv
-from flask import Flask, send_file, request, jsonify
-import time
-import tempfile
+from flask import Flask, request, jsonify
 import json
 
 from gtts import gTTS
 import os
-import playsound
 
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -56,12 +53,6 @@ def pipeline():
     if file and file.filename.endswith('.m4a'):
         # st = time.monotonic()
 
-        # file = open("path_to_file", "rb")
-        # file = open("api/LJ025-0076.wav", "rb")
-        # file_ext = file.name[len(file.name)-4:]
-        # valid_exts = [".wav", ".m4a", ".mp3"]
-        # assert file_ext in valid_exts, f"Invalid file extension: {file_ext}"
-
         print(f"\n*********************** {file.filename} is good **************\n")
         print(f"----------file object::::{file}----------")
 
@@ -88,27 +79,12 @@ def pipeline():
 
         filename = "abc.mp3"
         tts.save("api/"+filename)
-        
-        # et = time.monotonic() - st
 
-        # playsound.playsound(filename)
-        # os.remove(filename) # do we need this?
-
-        # Specify the return type as audio/mp3
-        # return send_file(filename, mimetype='audio/mp3')
-        # return jsonify({
-        #     'data': send_file(filename, mimetype='audio/mp3').data.decode('ISO-8859-1'),
-        #     'type': 'audio/mp3'
-        # })
         return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
     else:
         response_data = {'text': 'invalid file format'}
         return jsonify(response_data)
 
-    # return {
-    #     "output":chatgpt_output,
-    #     "time":f"\n Recording took took: {et*1000:.2f} ms\n"
-    #        }
 
 
 if __name__ == '__main__':
