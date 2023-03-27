@@ -1,11 +1,6 @@
 # Savvy
 
-<img src="https://user-images.githubusercontent.com/115026599/222979939-17e4a92b-3395-4e89-bdaa-ed13d8eb5716.png" alt="Product" width="500" />
-
-<img src="https://user-images.githubusercontent.com/115026599/222979945-4ae1fd3c-be84-49e4-afa3-3073f1a6efd1.png" alt="Final UI" width="500"/>
-
-![newSavvyLogo](https://user-images.githubusercontent.com/115026599/222979933-4f476143-c489-4890-ab03-8a42119fd99d.png)
-
+<img src="https://user-images.githubusercontent.com/115026599/222979945-4ae1fd3c-be84-49e4-afa3-3073f1a6efd1.png" alt="Final UI" height="500"/>
 
 ## Inspiration
 We were inspired by the recent release of the OpenAI Whisper and ChatGPT APIs. The OpenAI API allows users to connect to the OpenAI servers and run queries on LLMs through their apps. The Whisper API allows users to send voice data to OpenAI for them to transcribe. We realized that when we combined these APIs, we could provide a more immersive AI conversation experience than anyone has achieved before.
